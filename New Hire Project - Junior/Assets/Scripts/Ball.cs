@@ -8,10 +8,12 @@ public class Ball : MonoBehaviour
 {
     private Rigidbody2D rb;
     public float speed;
+    public Vector3 startPosition;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        startPosition = this.transform.position;
     }
 
     void Start()
@@ -19,9 +21,11 @@ public class Ball : MonoBehaviour
         Launch();
     }
 
-    void Update()
+    public void Reset()
     {
-
+        rb.velocity = Vector2.zero; //reset the balls velocity
+        transform.position = startPosition; //put the ball back to its start position
+        Launch(); //launch the ball again
     }
 
     private void Launch()
