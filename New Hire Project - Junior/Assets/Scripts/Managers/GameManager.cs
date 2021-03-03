@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Mirror;
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     #region Variables
     [Header("Ball")]
@@ -23,6 +24,9 @@ public class GameManager : MonoBehaviour
     public GameObject player2ScoreText;
     public static TextMeshProUGUI Player2Score;
 
+    [Header("Debugginh")]
+    public bool online = true;
+
     public bool StartGame = false;
 
     private int player1Score;
@@ -39,14 +43,14 @@ public class GameManager : MonoBehaviour
     {
         player1Score++;
         player1ScoreText.GetComponent<TextMeshProUGUI>().text = player1Score.ToString();
-        ResetPosition();
+        //ResetPosition();
     }
 
     public void Player2Scored()
     {
         player2Score++;
         player2ScoreText.GetComponent<TextMeshProUGUI>().text = player2Score.ToString();
-        ResetPosition();
+        //ResetPosition();
     }
 
     private void ResetPosition()

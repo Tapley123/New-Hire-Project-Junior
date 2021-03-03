@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Goal : MonoBehaviour
+public class Goal : NetworkBehaviour
 {
     public bool isPlayer1Goal;
     private GameManager gm;
@@ -12,6 +13,8 @@ public class Goal : MonoBehaviour
         gm = GameManager.FindObjectOfType<GameManager>();
     }
 
+    /*
+    [ServerCallback]
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Ball"))
@@ -30,4 +33,5 @@ public class Goal : MonoBehaviour
             }
         }
     }
+    */
 }

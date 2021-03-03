@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  rb: {fileID: 0}
+  rb: {fileID: 2893199354091904122}
   speed: 7
   startPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &5854251939753009138

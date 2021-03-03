@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 422866557}
   m_Layer: 0
   m_Name: 'Player 2 Goal '
-  m_TagString: Untagged
+  m_TagString: Goal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -389,6 +389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80429f8715b36b047a4bba1d0ad1130f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isPlayer1Goal: 0
 --- !u!1 &430182939
 GameObject:
@@ -765,6 +767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad6d0f38ce763834d929f2f3d2b52011, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   ball: {fileID: 2893199354091904125, guid: 29b375067232e574fbd6fad9fa005ad2, type: 3}
   player1Paddle: {fileID: 0}
   player1Goal: {fileID: 1331779657}
@@ -1171,7 +1175,7 @@ GameObject:
   - component: {fileID: 1331779659}
   m_Layer: 0
   m_Name: Player 1 Goal
-  m_TagString: Untagged
+  m_TagString: Goal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1279,6 +1283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80429f8715b36b047a4bba1d0ad1130f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   isPlayer1Goal: 1
 --- !u!1 &1358303573
 GameObject:
