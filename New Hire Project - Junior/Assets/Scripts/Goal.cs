@@ -5,6 +5,12 @@ using UnityEngine;
 public class Goal : MonoBehaviour
 {
     public bool isPlayer1Goal;
+    private GameManager gm;
+
+    private void Awake()
+    {
+        gm = GameManager.FindObjectOfType<GameManager>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,12 +19,14 @@ public class Goal : MonoBehaviour
             if (!isPlayer1Goal)
             {
                 Debug.Log("Player 1 scored...");
-                GameObject.Find("Game Manager").GetComponent<GameManager>().Player1Scored();
+                //GameObject.Find("Game Manager").GetComponent<GameManager>().Player1Scored();
+                gm.Player1Scored();
             }
             else
             {
                 Debug.Log("Player 2 scored...");
-                GameObject.Find("Game Manager").GetComponent<GameManager>().Player2Scored();
+                //GameObject.Find("Game Manager").GetComponent<GameManager>().Player2Scored();
+                gm.Player2Scored();
             }
         }
     }

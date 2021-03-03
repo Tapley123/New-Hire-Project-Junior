@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 using Random = UnityEngine.Random;
 
-public class Ball : MonoBehaviour
+public class Ball : NetworkBehaviour
 {
-    private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
     public float speed;
     public Vector3 startPosition;
 
@@ -16,9 +17,14 @@ public class Ball : MonoBehaviour
         startPosition = this.transform.position;
     }
 
-    void Start()
+    //ball positiion is only simulated on the server in order to syncranise it accross the network
+    public override void OnStartServer()
     {
-        Launch();
+        base.OnStartServer();
+
+        rb.simulated = true; //only simulate ball physics on server
+
+        Launch(); //serve the ball
     }
 
     public void Reset()

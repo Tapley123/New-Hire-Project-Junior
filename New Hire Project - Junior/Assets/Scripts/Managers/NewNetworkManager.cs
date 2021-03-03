@@ -9,6 +9,42 @@ using Mirror;
 
 public class NewNetworkManager : NetworkManager
 {
+    private GameManager gm;
+    public Transform leftRacketSpawn;
+    public Transform rightRacketSpawn;
+    GameObject ball;
+
+    public override void OnServerAddPlayer(NetworkConnection conn)
+    {
+        //called on the server when a client adds a new player
+
+        Transform start = numPlayers == 0 ? leftRacketSpawn : rightRacketSpawn;
+        GameObject player = Instantiate(playerPrefab, start.position, start.rotation);
+        NetworkServer.AddPlayerForConnection(conn, player);
+
+        if (numPlayers == 2)
+        {
+            ball = Instantiate(spawnPrefabs.Find(prefab => prefab.name == "Ball")); //spawn on server
+            NetworkServer.Spawn(ball); //spawn for each client
+        }
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        //when someone disconnects there will no longer be 2 people so the ball should be destroyed
+       
+        //reset the scores if someone disconeects
+        GameManager.Player1Score.text = "0";
+        GameManager.Player2Score.text = "0";
+
+        //destroys the ball 
+        if(ball != null)
+            NetworkServer.Destroy(ball);
+
+        //destroys the disconnected player
+        base.OnServerDisconnect(conn);
+    }
+
     #region Unity Callbacks
 
     public override void OnValidate()
@@ -143,20 +179,26 @@ public class NewNetworkManager : NetworkManager
     /// <para>The default implementation for this function creates a new player object from the playerPrefab.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
+    
+    /*
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
         base.OnServerAddPlayer(conn);
     }
+    */
 
     /// <summary>
     /// Called on the server when a client disconnects.
     /// <para>This is called on the Server when a Client disconnects from the Server. Use an override to decide what should happen when a disconnection is detected.</para>
     /// </summary>
     /// <param name="conn">Connection from client.</param>
+    
+    /*
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         base.OnServerDisconnect(conn);
     }
+    */
 
     /// <summary>
     /// Called on the server when a network error occurs for a client connection.

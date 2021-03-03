@@ -19,11 +19,21 @@ public class GameManager : MonoBehaviour
 
     [Header("Score UI")]
     public GameObject player1ScoreText;
+    public static TextMeshProUGUI Player1Score;
     public GameObject player2ScoreText;
+    public static TextMeshProUGUI Player2Score;
+
+    public bool StartGame = false;
 
     private int player1Score;
     private int player2Score;
     #endregion
+
+    private void Update()
+    {
+        Player1Score = player1ScoreText.GetComponent<TextMeshProUGUI>();
+        Player2Score = player2ScoreText.GetComponent<TextMeshProUGUI>();
+    }
 
     public void Player1Scored()
     {
@@ -44,5 +54,10 @@ public class GameManager : MonoBehaviour
         ball.GetComponent<Ball>().Reset();
         player1Paddle.GetComponent<Paddle>().Reset();
         player2Paddle.GetComponent<Paddle>().Reset();
+    }
+
+    public void Begin()
+    {
+        StartGame = true;
     }
 }

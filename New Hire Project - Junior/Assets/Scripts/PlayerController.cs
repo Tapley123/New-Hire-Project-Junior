@@ -33,7 +33,7 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //dont run anything unless it belongs to the local player
         if (!isLocalPlayer)
