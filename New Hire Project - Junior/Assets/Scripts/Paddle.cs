@@ -21,7 +21,7 @@ public class Paddle : MonoBehaviour
     {
         if(isPlayer1)
         {
-            movement = Input.GetAxisRaw("Vertical");
+            movement = Input.GetAxisRaw("Vertical1");
         }
         else
         {
