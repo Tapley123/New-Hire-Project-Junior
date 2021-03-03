@@ -20,31 +20,21 @@ public class GameManager : NetworkBehaviour
 
     [Header("Score UI")]
     public GameObject player1ScoreText;
-    public static TextMeshProUGUI Player1Score;
     public GameObject player2ScoreText;
-    public static TextMeshProUGUI Player2Score;
 
-    [Header("Debugginh")]
-    public bool online = true;
-
-    public bool StartGame = false;
-
-    private int player1Score;
-    private int player2Score;
+    private int player1Score;    
+    public int player2Score;
     #endregion
 
-    private void Update()
-    {
-        Player1Score = player1ScoreText.GetComponent<TextMeshProUGUI>();
-        Player2Score = player2ScoreText.GetComponent<TextMeshProUGUI>();
-    }
 
-    public void Player1Scored()
+    private void Player1Scored()
     {
         player1Score++;
         player1ScoreText.GetComponent<TextMeshProUGUI>().text = player1Score.ToString();
         //ResetPosition();
     }
+
+    
 
     public void Player2Scored()
     {
@@ -53,15 +43,30 @@ public class GameManager : NetworkBehaviour
         //ResetPosition();
     }
 
+    /*
     private void ResetPosition()
     {
         ball.GetComponent<Ball>().Reset();
         player1Paddle.GetComponent<Paddle>().Reset();
         player2Paddle.GetComponent<Paddle>().Reset();
     }
+    */
 
-    public void Begin()
+    [Command]
+    public void CmdScoreUp(int score)
     {
-        StartGame = true;
+        // Server say all clients, your score
+        RpcScoreUp(score);
+    }
+
+    [ClientRpc]
+    public void RpcScoreUp(int score)
+    {
+        // You dont need do this action again, will be do it only your instance on all clients
+        if (!isLocalPlayer)
+        {
+            myScore = score;
+            scorePlayer1.text = score.ToString();
+        }
     }
 }

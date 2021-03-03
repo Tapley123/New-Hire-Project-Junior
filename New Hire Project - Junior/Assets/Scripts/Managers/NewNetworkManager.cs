@@ -34,8 +34,8 @@ public class NewNetworkManager : NetworkManager
         //when someone disconnects there will no longer be 2 people so the ball should be destroyed
        
         //reset the scores if someone disconeects
-        GameManager.Player1Score.text = "0";
-        GameManager.Player2Score.text = "0";
+        //GameManager.Player1Score.text = "0";
+        //GameManager.Player2Score.text = "0";
 
         //destroys the ball 
         if(ball != null)

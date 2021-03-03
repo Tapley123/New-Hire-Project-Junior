@@ -57,11 +57,15 @@ public class Ball : NetworkBehaviour
             if (!collision.GetComponent<Goal>().isPlayer1Goal)
             {
                 Debug.Log("Player 1 scored...");
-                gm.Player1Scored();
+                //player1Score++;
+                //player1ScoreText.text = player1Score.ToString();
+                gm.UpdatePlayer1Score();
             }
             else
             {
                 Debug.Log("Player 2 scored...");
+                //player2Score++;
+                //player2ScoreText.text = player2Score.ToString();
                 gm.Player2Scored();
             }
             Reset();
