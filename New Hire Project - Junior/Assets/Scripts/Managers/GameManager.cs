@@ -27,7 +27,7 @@ public class GameManager : NetworkBehaviour
     #endregion
 
 
-    private void Player1Scored()
+    public void Player1Scored()
     {
         player1Score++;
         player1ScoreText.GetComponent<TextMeshProUGUI>().text = player1Score.ToString();
@@ -65,8 +65,8 @@ public class GameManager : NetworkBehaviour
         // You dont need do this action again, will be do it only your instance on all clients
         if (!isLocalPlayer)
         {
-            myScore = score;
-            scorePlayer1.text = score.ToString();
+            //myScore = score;
+            //scorePlayer1.text = score.ToString();
         }
     }
 }

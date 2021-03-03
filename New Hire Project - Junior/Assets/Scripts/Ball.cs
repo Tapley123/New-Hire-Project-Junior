@@ -59,7 +59,7 @@ public class Ball : NetworkBehaviour
                 Debug.Log("Player 1 scored...");
                 //player1Score++;
                 //player1ScoreText.text = player1Score.ToString();
-                gm.UpdatePlayer1Score();
+                gm.Player1Scored();
             }
             else
             {
