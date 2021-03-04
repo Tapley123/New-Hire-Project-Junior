@@ -9,9 +9,10 @@ using Mirror;
 
 public class NewNetworkManager : NetworkManager
 {
-    private GameManager gm;
     public Transform leftRacketSpawn;
     public Transform rightRacketSpawn;
+    public int player1Score = 0;
+    public int player2Score = 0;
     GameObject ball;
 
     public override void OnServerAddPlayer(NetworkConnection conn)
@@ -32,10 +33,6 @@ public class NewNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         //when someone disconnects there will no longer be 2 people so the ball should be destroyed
-       
-        //reset the scores if someone disconeects
-        //GameManager.Player1Score.text = "0";
-        //GameManager.Player2Score.text = "0";
 
         //destroys the ball 
         if(ball != null)

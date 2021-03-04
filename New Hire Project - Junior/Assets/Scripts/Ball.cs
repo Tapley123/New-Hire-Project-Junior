@@ -9,15 +9,16 @@ using Random = UnityEngine.Random;
 public class Ball : NetworkBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private NewNetworkManager nm;
+    private GameManager gm;
     public float speed;
     public Vector3 startPosition;
-
-    private GameManager gm;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
+        nm = FindObjectOfType<NewNetworkManager>();
         gm = FindObjectOfType<GameManager>();
     }
 
@@ -44,7 +45,7 @@ public class Ball : NetworkBehaviour
         float x = Random.Range(0, 2) * 2 - 1; //randomly = -1 or 1;
         float y = Random.Range(0, 2) * 2 - 1; //randomly = -1 or 1;
 
-        rb.velocity = new Vector2(speed * x, speed * y);
+        rb.velocity = new Vector2(speed * x, speed * y); //the ball will be launced in a completely random direction everytime
     }
 
     [ServerCallback]
@@ -52,23 +53,22 @@ public class Ball : NetworkBehaviour
     {
         if (collision.gameObject.CompareTag("Goal"))
         {
-            Debug.Log("GOAL");
+            //Debug.Log("GOAL");
 
             if (!collision.GetComponent<Goal>().isPlayer1Goal)
             {
-                Debug.Log("Player 1 scored...");
-                //player1Score++;
-                //player1ScoreText.text = player1Score.ToString();
-                gm.Player1Scored();
+                //Debug.Log("Player 1 scored...");
+                nm.player1Score++; //increase the score in the network manager
+                gm.Player1Scored(nm.player1Score); //have the score be updated for all clients and displayed from the game manager
             }
             else
             {
-                Debug.Log("Player 2 scored...");
-                //player2Score++;
-                //player2ScoreText.text = player2Score.ToString();
-                gm.Player2Scored();
+                //Debug.Log("Player 2 scored...");
+                nm.player2Score++; //increase the score in the network manager
+                gm.Player2Scored(nm.player2Score); //have the score be updated for all clients and displayed from the game manager
             }
-            Reset();
+
+            Reset(); //reset the ball after someone scores
         }
     }
 }

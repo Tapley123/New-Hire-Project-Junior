@@ -600,6 +600,7 @@ GameObject:
   m_Component:
   - component: {fileID: 773198397}
   - component: {fileID: 773198398}
+  - component: {fileID: 773198399}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -635,14 +636,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  ball: {fileID: 2893199354091904125, guid: 29b375067232e574fbd6fad9fa005ad2, type: 3}
-  player1Paddle: {fileID: 0}
-  player1Goal: {fileID: 1331779657}
-  player2Paddle: {fileID: 1563147826}
-  player2Goal: {fileID: 422866555}
   player1ScoreText: {fileID: 6679226034121404281}
   player2ScoreText: {fileID: 6679226034121404280}
-  player2Score: 0
+--- !u!114 &773198399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773198396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 3573171937
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!1 &946447934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1312,6 +1323,8 @@ MonoBehaviour:
   - {fileID: 2893199354091904125, guid: 29b375067232e574fbd6fad9fa005ad2, type: 3}
   leftRacketSpawn: {fileID: 1438877285}
   rightRacketSpawn: {fileID: 82705931}
+  player1Score: 0
+  player2Score: 0
 --- !u!114 &1724915435
 MonoBehaviour:
   m_ObjectHideFlags: 0
