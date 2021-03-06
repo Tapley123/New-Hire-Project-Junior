@@ -1272,8 +1272,6 @@ MonoBehaviour:
   - {fileID: 2893199354091904125, guid: 29b375067232e574fbd6fad9fa005ad2, type: 3}
   leftRacketSpawn: {fileID: 1438877285}
   rightRacketSpawn: {fileID: 82705931}
-  player1Score: 0
-  player2Score: 0
 --- !u!114 &1724915435
 MonoBehaviour:
   m_ObjectHideFlags: 0
