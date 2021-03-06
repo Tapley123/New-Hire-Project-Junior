@@ -10,8 +10,6 @@ public class NewNetworkManager : NetworkManager
 {
     public Transform leftRacketSpawn;
     public Transform rightRacketSpawn;
-    public int player1Score = 0;
-    public int player2Score = 0;
     GameObject ball;
 
     public override void OnServerAddPlayer(NetworkConnection conn)
@@ -33,9 +31,6 @@ public class NewNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         //when someone disconnects there will no longer be 2 people so the ball should be destroyed
-
-        player1Score = 0;
-        player2Score = 0;
 
         //destroys the ball 
         if(ball != null)
@@ -275,8 +270,7 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopHost() 
     {
-        player1Score = 0;
-        player2Score = 0;
+
     }
 
     /// <summary>
@@ -284,8 +278,7 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopServer() 
     {
-        player1Score = 0;
-        player2Score = 0;
+
     }
 
     /// <summary>
@@ -293,8 +286,7 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopClient() 
     {
-        player1Score = 0;
-        player2Score = 0;
+
     }
 
     #endregion
