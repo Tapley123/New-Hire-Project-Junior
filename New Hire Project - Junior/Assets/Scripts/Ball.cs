@@ -5,7 +5,6 @@ using Random = UnityEngine.Random;
 public class Ball : NetworkBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private NewNetworkManager nm;
     private GameManager gm;
     public float speed;
     public Vector3 startPosition;
@@ -16,7 +15,6 @@ public class Ball : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
-        nm = FindObjectOfType<NewNetworkManager>();
         gm = FindObjectOfType<GameManager>();
 
         score1 = 0;
