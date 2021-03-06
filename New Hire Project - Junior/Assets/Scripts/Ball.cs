@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
-using TMPro;
 using Random = UnityEngine.Random;
 
 public class Ball : NetworkBehaviour
@@ -14,12 +10,29 @@ public class Ball : NetworkBehaviour
     public float speed;
     public Vector3 startPosition;
 
+    private int score1, score2;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
         nm = FindObjectOfType<NewNetworkManager>();
         gm = FindObjectOfType<GameManager>();
+
+        score1 = 0;
+        score2 = 0;
+    }
+
+    private void Start()
+    {
+        ResetScore();
+    }
+
+    [ServerCallback]
+    private void ResetScore()
+    {
+        gm.UpdatePlayer1Score(score1);
+        gm.UpdatePlayer2Score(score2);
     }
 
     //ball positiion is only simulated on the server in order to syncranise it accross the network
@@ -32,7 +45,6 @@ public class Ball : NetworkBehaviour
         Launch(); //serve the ball
     }
 
-    
     public void Reset()
     {
         rb.velocity = Vector2.zero; //reset the balls velocity
@@ -57,15 +69,14 @@ public class Ball : NetworkBehaviour
 
             if (!collision.GetComponent<Goal>().isPlayer1Goal)
             {
-                //Debug.Log("Player 1 scored...");
-                nm.player1Score++; //increase the score in the network manager
-                gm.Player1Scored(nm.player1Score); //have the score be updated for all clients and displayed from the game manager
+                score1++;
+                gm.UpdatePlayer1Score(score1);
             }
             else
             {
-                //Debug.Log("Player 2 scored...");
-                nm.player2Score++; //increase the score in the network manager
-                gm.Player2Scored(nm.player2Score); //have the score be updated for all clients and displayed from the game manager
+                score2++;
+                gm.UpdatePlayer2Score(score2);
+                
             }
 
             Reset(); //reset the ball after someone scores

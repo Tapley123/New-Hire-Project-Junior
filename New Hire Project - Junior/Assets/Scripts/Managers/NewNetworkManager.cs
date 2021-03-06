@@ -18,6 +18,7 @@ public class NewNetworkManager : NetworkManager
     {
         //called on the server when a client adds a new player
 
+
         Transform start = numPlayers == 0 ? leftRacketSpawn : rightRacketSpawn;
         GameObject player = Instantiate(playerPrefab, start.position, start.rotation);
         NetworkServer.AddPlayerForConnection(conn, player);
@@ -32,6 +33,9 @@ public class NewNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         //when someone disconnects there will no longer be 2 people so the ball should be destroyed
+
+        player1Score = 0;
+        player2Score = 0;
 
         //destroys the ball 
         if(ball != null)
@@ -269,17 +273,29 @@ public class NewNetworkManager : NetworkManager
     /// <summary>
     /// This is called when a host is stopped.
     /// </summary>
-    public override void OnStopHost() { }
+    public override void OnStopHost() 
+    {
+        player1Score = 0;
+        player2Score = 0;
+    }
 
     /// <summary>
     /// This is called when a server is stopped - including when a host is stopped.
     /// </summary>
-    public override void OnStopServer() { }
+    public override void OnStopServer() 
+    {
+        player1Score = 0;
+        player2Score = 0;
+    }
 
     /// <summary>
     /// This is called when a client is stopped.
     /// </summary>
-    public override void OnStopClient() { }
+    public override void OnStopClient() 
+    {
+        player1Score = 0;
+        player2Score = 0;
+    }
 
     #endregion
 }
