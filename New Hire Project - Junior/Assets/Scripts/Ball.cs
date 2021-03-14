@@ -10,6 +10,9 @@ public class Ball : NetworkBehaviour
     public Vector3 startPosition;
 
     private int score1, score2;
+    public int AmountToWin = 5;
+
+    bool stopGame = false;
 
     void Awake()
     {
@@ -38,6 +41,9 @@ public class Ball : NetworkBehaviour
     {
         base.OnStartServer();
 
+        score1 = 0;
+        score2 = 0;
+
         rb.simulated = true; //only simulate ball physics on server
 
         Launch(); //serve the ball
@@ -47,11 +53,28 @@ public class Ball : NetworkBehaviour
     {
         rb.velocity = Vector2.zero; //reset the balls velocity
         transform.position = startPosition; //put the ball back to its start position
+
         Launch(); //launch the ball again
+    }
+
+    [ClientRpc]
+    public void RpcRestartGame()
+    {
+        stopGame = false;
+
+        score1 = 0;
+        score2 = 0;
+
+        rb.simulated = true; //only simulate ball physics on server
+
+        Launch(); //serve the ball
     }
 
     private void Launch()
     {
+        if (stopGame)
+            return;
+
         float x = Random.Range(0, 2) * 2 - 1; //randomly = -1 or 1;
         float y = Random.Range(0, 2) * 2 - 1; //randomly = -1 or 1;
 
@@ -69,15 +92,25 @@ public class Ball : NetworkBehaviour
             {
                 score1++;
                 gm.UpdatePlayer1Score(score1);
+
+                if (score1 == AmountToWin)
+                {
+                    gm.GameWon("Player 1 Won");
+                    stopGame = true;
+                }
             }
             else
             {
                 score2++;
                 gm.UpdatePlayer2Score(score2);
-                
-            }
 
-            Reset(); //reset the ball after someone scores
+                if (score2 == AmountToWin)
+                {
+                    gm.GameWon("Player 2 Won");
+                    stopGame = true;
+                }
+            }
+            Reset();
         }
     }
 }

@@ -11,6 +11,8 @@ public class PlayerController : NetworkBehaviour
     private Vector3 startPosition;
     private float movement; // = to the Vertical axis from the input manager
 
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -34,14 +36,46 @@ public class PlayerController : NetworkBehaviour
     }
 
     void FixedUpdate()
-    {
+    { 
         //dont run anything unless it belongs to the local player
         if (!isLocalPlayer)
             return;
-        
-        //input
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S))
+            CmdSendMovement();
+        else
+            CmdSendStop();
+    }
+
+    private void Update()
+    {
+        //Debug.Log("Movement float = " + movement);
         movement = Input.GetAxisRaw("Vertical");
-        rb.velocity = new Vector2(rb.velocity.x, movement * speed); 
+    }
+
+    [Command]
+    void CmdSendMovement()
+    {
+        //only called on the server
+        //validate logic here
+
+        RpcMovePlayer();
+    }
+    [ClientRpc]
+    void RpcMovePlayer()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, movement * speed);
+    }
+
+    [Command]
+    void CmdSendStop()
+    {
+        RpcStop();
+    }
+    [ClientRpc]
+    void RpcStop()
+    {
+        rb.velocity = new Vector2(0, 0);
     }
 
     public void Reset()
