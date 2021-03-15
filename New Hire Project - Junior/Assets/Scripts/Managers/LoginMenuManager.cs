@@ -10,18 +10,23 @@ public class LoginMenuManager : MonoBehaviour
     public GameObject registerPanel;
 
     [Header ("Creating Player")]
-    public TMP_Text displayNameInput;
-    public TMP_Text userNameInput;
-    public TMP_Text passwordInput;
+    public TMP_InputField displayNameInputCreating;
+    public TMP_InputField userNameInputCreating;
+    public TMP_InputField passwordInputCreating;
 
     [Header("Player Login")]
-    public TMP_Text userNameInputLogin;
-    public TMP_Text passwordInputLogin;
+    public TMP_InputField userNameInputLogin;
+    public TMP_InputField passwordInputLogin;
 
 
     void Awake()
     {
         GoToRegisterScreen();
+    }
+
+    void Update()
+    {
+        //Debug.Log(displayNameInputCreating.text);
     }
 
     #region Screen / Scene Changers
@@ -54,25 +59,30 @@ public class LoginMenuManager : MonoBehaviour
     //Registers a player on the gamesparks server based on the username and password input
     public void B_CreateAccount()
     {
-        Debug.Log("Registering Player...");
+        if(displayNameInputCreating.text != "" && userNameInputCreating.text != "" && passwordInputCreating.text != "") //check if the input fields are not empty
+        {
+            Debug.Log("Registering Player...");
 
-        new GameSparks.Api.Requests.RegistrationRequest()
-            .SetDisplayName(displayNameInput.text)
-            .SetUserName(userNameInput.text)
-            .SetPassword(passwordInput.text)
+            new GameSparks.Api.Requests.RegistrationRequest()
+            .SetDisplayName(displayNameInputCreating.text)
+            .SetUserName(userNameInputCreating.text)
+            .SetPassword(passwordInputCreating.text)
             .Send((response) =>
-           {
-               if (!response.HasErrors)
-               {
-                   Debug.Log("Player Registered \n User Name: " + response.DisplayName);
-                   GoToLoginScreen();
-               }
-               else
-               {
-                   //display all errors from registering player
-                   Debug.Log("Error Registering Player... \n " + response.Errors.JSON.ToString());
-               }
-           });
+            {
+                if (!response.HasErrors)
+                {
+                    Debug.Log("Player Registered \n User Name: " + response.DisplayName);
+                    GoToLoginScreen();
+                }
+                else
+                {
+                    //display all errors from registering player
+                    Debug.Log("Error Registering Player... \n " + response.Errors.JSON.ToString());
+                }
+            });
+        }
+        else
+            Debug.Log("Error Registering Player... Make sure you have filled in all of the boxes");
     }
 
     //checks the username and password a player has input and if they are correct then the player logs in

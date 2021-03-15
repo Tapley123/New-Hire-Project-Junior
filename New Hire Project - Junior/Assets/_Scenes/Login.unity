@@ -3025,11 +3025,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loginPanel: {fileID: 263213265}
   registerPanel: {fileID: 1124758420}
-  displayNameInput: {fileID: 991538303}
-  userNameInput: {fileID: 1830125640}
-  passwordInput: {fileID: 261880669}
-  userNameInputLogin: {fileID: 112580020}
-  passwordInputLogin: {fileID: 1713313083}
+  displayNameInputCreating: {fileID: 968298766}
+  userNameInputCreating: {fileID: 1686962318}
+  passwordInputCreating: {fileID: 919478500}
+  userNameInputLogin: {fileID: 2108374998}
+  passwordInputLogin: {fileID: 1802337706}
 --- !u!1 &1167466271
 GameObject:
   m_ObjectHideFlags: 0
