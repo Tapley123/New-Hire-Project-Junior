@@ -2,6 +2,7 @@
 using Mirror;
 using Random = UnityEngine.Random;
 
+
 public class Ball : NetworkBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
