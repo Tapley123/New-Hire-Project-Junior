@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using Mirror;
 
 public class LeaderboardManager : NetworkBehaviour
 {
     public GameObject leaderboardPanel;
     public GameObject leaderboardButton;
+    public TMP_Text leaderboardText;
 
     void Awake()
     {
