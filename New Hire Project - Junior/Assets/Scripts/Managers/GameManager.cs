@@ -11,12 +11,15 @@ public class GameManager : NetworkBehaviour
     public GameObject winPanel;
     public GameObject winningPlayerName;
     public GameObject replayButton;
+    
     #endregion
 
     private void Awake()
     {
         winPanel.SetActive(false);
     }
+
+    
 
     [ClientRpc]
     public void UpdatePlayer1Score(int score)
@@ -63,5 +66,10 @@ public class GameManager : NetworkBehaviour
         player1ScoreText.GetComponent<TextMeshProUGUI>().text = "0";
         player2ScoreText.GetComponent<TextMeshProUGUI>().text = "0";
         winPanel.SetActive(false);
+    }
+
+    public void Button_Leaderboard()
+    {
+
     }
 }

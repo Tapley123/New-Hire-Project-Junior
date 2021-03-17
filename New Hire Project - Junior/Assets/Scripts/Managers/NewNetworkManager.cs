@@ -11,6 +11,7 @@ public class NewNetworkManager : NetworkManager
     public Transform leftRacketSpawn;
     public Transform rightRacketSpawn;
     GameObject ball;
+    public GameObject leaderboardButton;
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
@@ -35,6 +36,8 @@ public class NewNetworkManager : NetworkManager
         //destroys the ball 
         if(ball != null)
             NetworkServer.Destroy(ball);
+
+        leaderboardButton.SetActive(true);
 
         //destroys the disconnected player
         base.OnServerDisconnect(conn);
@@ -252,25 +255,34 @@ public class NewNetworkManager : NetworkManager
     /// This is invoked when a host is started.
     /// <para>StartHost has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
-    public override void OnStartHost() { }
+    public override void OnStartHost() 
+    {
+        leaderboardButton.SetActive(false);
+    }
 
     /// <summary>
     /// This is invoked when a server is started - including when a host is started.
     /// <para>StartServer has multiple signatures, but they all cause this hook to be called.</para>
     /// </summary>
-    public override void OnStartServer() { }
+    public override void OnStartServer() 
+    {
+        leaderboardButton.SetActive(false);
+    }
 
     /// <summary>
     /// This is invoked when the client is started.
     /// </summary>
-    public override void OnStartClient() { }
+    public override void OnStartClient() 
+    {
+        leaderboardButton.SetActive(false);
+    }
 
     /// <summary>
     /// This is called when a host is stopped.
     /// </summary>
     public override void OnStopHost() 
     {
-
+        leaderboardButton.SetActive(true);
     }
 
     /// <summary>
@@ -278,7 +290,7 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopServer() 
     {
-
+        leaderboardButton.SetActive(true);
     }
 
     /// <summary>
@@ -286,7 +298,7 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopClient() 
     {
-
+        leaderboardButton.SetActive(true);
     }
 
     #endregion
