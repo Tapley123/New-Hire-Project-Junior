@@ -8,7 +8,8 @@ public class LeaderboardManager : NetworkBehaviour
 {
     public GameObject leaderboardPanel;
     public GameObject leaderboardButton;
-    public TMP_Text leaderboardText;
+    public TMP_Text leaderboardPlayerText;
+    public TMP_Text leaderboardScoreText;
 
     public TMP_InputField scoreInputTest;
 
@@ -35,7 +36,8 @@ public class LeaderboardManager : NetworkBehaviour
             if (!response.HasErrors)
             {
                 Debug.Log("Found Leaderboard Data...");
-                leaderboardText.text = System.String.Empty;
+                leaderboardPlayerText.text = System.String.Empty;
+                leaderboardScoreText.text = System.String.Empty;
 
                 foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
                 {
@@ -43,7 +45,8 @@ public class LeaderboardManager : NetworkBehaviour
                     string playerName = entry.UserName;
                     Debug.Log(" Name:" + playerName + "        Score:" + score + "\n");
 
-                    leaderboardText.text = leaderboardText.text + "\n" + " Name:" + playerName + "        Score:" + score;
+                    leaderboardPlayerText.text = leaderboardPlayerText.text + "\n" + playerName;
+                    leaderboardScoreText.text = leaderboardScoreText.text + "\n" + score;
                 }
             }
             else
