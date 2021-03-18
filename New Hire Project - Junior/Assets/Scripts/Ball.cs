@@ -114,4 +114,43 @@ public class Ball : NetworkBehaviour
             Reset();
         }
     }
+
+    public void GetLeaderboard()
+    {
+        new GameSparks.Api.Requests.LeaderboardDataRequest()
+            .SetLeaderboardShortCode("SCORE_LEADERBOARD")
+            .SetEntryCount(100)
+            .Send((response) => {
+                if (!response.HasErrors)
+                {
+                    //Debug.Log("Found Leaderboard Data...");
+
+                    foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
+                    {
+                        string score = entry.JSONData["SCORE"].ToString();
+                        string playerName = entry.UserName;
+                        //Debug.Log(" Name:" + playerName + "        Score:" + score + "\n");
+                    }
+                }
+                else
+                {
+                    //Debug.Log("Error Retrieving Leaderboard Data...");
+                }
+            });
+    }
+
+    public void PostScoreToLeaderboard(int score)
+    {
+        new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", score).Send((response) => {
+            if (!response.HasErrors)
+            {
+                Debug.Log("Score Posted Successfully...");
+                //Debug.Log("scoreInputTest.text: " + scoreInputTest.text);
+            }
+            else
+            {
+                Debug.Log("Error Posting Score...");
+            }
+        });
+    }
 }
