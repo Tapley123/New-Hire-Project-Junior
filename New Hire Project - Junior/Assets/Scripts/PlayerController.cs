@@ -2,21 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using GameSparks;
 
 public class PlayerController : NetworkBehaviour
 {
     [SerializeField] private float speed;
+    public string gamesparksUserId;
 
     private Rigidbody2D rb;
     private Vector3 startPosition;
     private float movement; // = to the Vertical axis from the input manager
 
-
+    public bool player1 = false;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
+        GetPlayerInfo();
+
+        if (this.transform.position.x < 0)
+            player1 = true;
+        else
+            player1 = false;
     }
 
     void Start()
@@ -82,5 +90,22 @@ public class PlayerController : NetworkBehaviour
     {
         rb.velocity = Vector2.zero; //reset the paddles velocity
         transform.position = startPosition; //put the paddle back to the start position
+    }
+
+    public void GetPlayerInfo()
+    {
+        new GameSparks.Api.Requests.AccountDetailsRequest().Send((response) => {
+            if (!response.HasErrors)
+            {
+                Debug.Log("Account Details Found...");
+
+                gamesparksUserId = response.UserId; // we can get the display name
+                Debug.Log("User Id: " + gamesparksUserId);
+            }
+            else
+            {
+                Debug.Log("Error Retrieving Account Details...");
+            }
+        });
     }
 }

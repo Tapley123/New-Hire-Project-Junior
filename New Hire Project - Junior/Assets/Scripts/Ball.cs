@@ -15,6 +15,8 @@ public class Ball : NetworkBehaviour
 
     bool stopGame = false;
 
+    public PlayerController player1Controller, player2Controller;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -28,6 +30,22 @@ public class Ball : NetworkBehaviour
     private void Start()
     {
         ResetScore();
+    }
+
+    private void Update()
+    {
+        if (player1Controller == null || player2Controller == null)
+        {
+            PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+
+            foreach (PlayerController pc in playerControllers)
+            {
+                if (pc.player1)
+                    player1Controller = pc;
+                else
+                    player2Controller = pc;
+            }
+        }
     }
 
     [ServerCallback]
@@ -95,10 +113,7 @@ public class Ball : NetworkBehaviour
                 gm.UpdatePlayer1Score(score1);
 
                 if (score1 == AmountToWin)
-                {
-                    gm.GameWon("Player 1 Won");
-                    stopGame = true;
-                }
+                    Player1Won();
             }
             else
             {
@@ -106,13 +121,22 @@ public class Ball : NetworkBehaviour
                 gm.UpdatePlayer2Score(score2);
 
                 if (score2 == AmountToWin)
-                {
-                    gm.GameWon("Player 2 Won");
-                    stopGame = true;
-                }
+                    Player2Won();
             }
             Reset();
         }
+    }
+
+    void Player1Won()
+    {
+        gm.GameWon("Player 1 Won");
+        stopGame = true;
+    }
+
+    void Player2Won()
+    {
+        gm.GameWon("Player 2 Won");
+        stopGame = true;
     }
 
     public void GetLeaderboard()
@@ -128,8 +152,7 @@ public class Ball : NetworkBehaviour
                     foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
                     {
                         string score = entry.JSONData["SCORE"].ToString();
-                        string playerName = entry.UserName;
-                        //Debug.Log(" Name:" + playerName + "        Score:" + score + "\n");
+                        string playerId = entry.UserId;
                     }
                 }
                 else
@@ -153,4 +176,6 @@ public class Ball : NetworkBehaviour
             }
         });
     }
+
+    
 }
