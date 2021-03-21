@@ -186,6 +186,37 @@ public class Ball : NetworkBehaviour
         Debug.Log("Player 2 Gamesparks id: " + player2Controller.gamesparksUserId);
     }
 
+    private void GetPlayersLeaderboardScore()
+    {
+        new GameSparks.Api.Requests.LeaderboardDataRequest()
+            .SetLeaderboardShortCode("SCORE_LEADERBOARD")
+            .SetEntryCount(100)
+            .Send((response) => {
+                if (!response.HasErrors)
+                {
+                    foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
+                    {
+                        if(entry.UserId == player1Controller.gamesparksUserId)
+                        {
+                            Debug.Log("Player1's score = " + entry.JSONData["SCORE"].ToString());
+                        }
+
+                        if (entry.UserId == player2Controller.gamesparksUserId)
+                        {
+                            Debug.Log("Player2's score = " + entry.JSONData["SCORE"].ToString());
+                        }
+
+                        //string score = entry.JSONData["SCORE"].ToString();
+                        //string playerId = entry.UserId;
+                    }
+                }
+                else
+                {
+                    //Debug.Log("Error Retrieving Leaderboard Data...");
+                }
+            });
+    }
+
     /*
     public void GetLeaderboard()
     {
