@@ -19,7 +19,7 @@ public class PlayerController : NetworkBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
-        GetPlayerInfo();
+        
 
         if (this.transform.position.x < 0)
             player1 = true;
@@ -29,9 +29,10 @@ public class PlayerController : NetworkBehaviour
 
     void Start()
     {
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
             //it is the local player
+            GetPlayerInfo();
 
             //setup
             //Camera.main.transform.SetParent(this.transform); //<-------------------- use if each player needs to move the main camera
@@ -57,10 +58,10 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        //Debug.Log("Movement float = " + movement);
         movement = Input.GetAxisRaw("Vertical");
     }
 
+    #region Movement
     [Command]
     void CmdSendMovement()
     {
@@ -91,14 +92,17 @@ public class PlayerController : NetworkBehaviour
         rb.velocity = Vector2.zero; //reset the paddles velocity
         transform.position = startPosition; //put the paddle back to the start position
     }
+    #endregion
 
+    #region Getting Player ID
     public void GetPlayerInfo()
     {
         new GameSparks.Api.Requests.AccountDetailsRequest().Send((response) => {
             if (!response.HasErrors)
             {
-                gamesparksUserId = response.UserId; // we can get the display name
-                Debug.Log("Account Details Found... " + "\n" + "User Id: " + gamesparksUserId);
+                Debug.Log("Account Details Found...");
+
+                CmdUpdateID(response.UserId);
             }
             else
             {
@@ -106,4 +110,47 @@ public class PlayerController : NetworkBehaviour
             }
         });
     }
+    [Command]
+    void CmdUpdateID(string id)
+    {
+        RpcUpdateUserID(id);
+    }
+    [ClientRpc]
+    private void RpcUpdateUserID(string id)
+    {
+        gamesparksUserId = id;
+        Debug.Log("is: " + id);
+    }
+    #endregion
+
+
+
+    /*
+    public void GetMyLeaderboardScore()
+    {
+        new GameSparks.Api.Requests.LeaderboardDataRequest()
+        .SetLeaderboardShortCode("SCORE_LEADERBOARD")
+        .SetEntryCount(100)
+        .Send((response) => {
+            if (!response.HasErrors)
+            {
+                //Debug.Log("Found Leaderboard Data...");
+
+                foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
+                {
+                    if (entry.UserId == gamesparksUserId)
+                    {
+                        string score = entry.JSONData["SCORE"].ToString();
+                        string name = entry.UserName;
+                        Debug.Log("My name is: " + name + " my score is: " + score);
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("Error Retrieving Leaderboard Data...");
+            }
+        });
+    }
+    */
 }

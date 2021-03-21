@@ -41,9 +41,48 @@ public class Ball : NetworkBehaviour
             foreach (PlayerController pc in playerControllers)
             {
                 if (pc.player1)
+                {
                     player1Controller = pc;
+
+                    Debug.Log("Player 1's Gamesparks user ID is: " + player1Controller.gamesparksUserId);
+                }
                 else
+                {
                     player2Controller = pc;
+                    Debug.Log("Player 2's Gamesparks user ID is: " + player2Controller.gamesparksUserId); //<------------------------------------------------------------shows up as empty!!!!
+                }
+
+
+                new GameSparks.Api.Requests.LeaderboardDataRequest()
+                .SetLeaderboardShortCode("SCORE_LEADERBOARD")
+                .SetEntryCount(100)
+                .Send((response) => {
+                    if (!response.HasErrors)
+                    {
+                        //Debug.Log("Found Leaderboard Data...");
+
+                        foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
+                        {
+                            if (entry.UserId == player1Controller.gamesparksUserId)
+                            {
+                                string score = entry.JSONData["SCORE"].ToString();
+                                string name = entry.UserName;
+                                Debug.Log("Player1's name is: " + name + " their score is: " + score);
+                            }
+                            
+                            if (entry.UserId == player2Controller.gamesparksUserId)
+                            {
+                                string score = entry.JSONData["SCORE"].ToString();
+                                string name = entry.UserName;
+                                Debug.Log("Player2's name is: " + name + " their score is: " + score);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Debug.Log("Error Retrieving Leaderboard Data...");
+                    }
+                });
             }
         }
     }
@@ -147,6 +186,7 @@ public class Ball : NetworkBehaviour
         Debug.Log("Player 2 Gamesparks id: " + player2Controller.gamesparksUserId);
     }
 
+    /*
     public void GetLeaderboard()
     {
         new GameSparks.Api.Requests.LeaderboardDataRequest()
@@ -184,6 +224,6 @@ public class Ball : NetworkBehaviour
             }
         });
     }
-
+    */
     
 }
