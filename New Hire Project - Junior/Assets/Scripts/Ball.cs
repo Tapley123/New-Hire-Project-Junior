@@ -131,12 +131,20 @@ public class Ball : NetworkBehaviour
     {
         gm.GameWon("Player 1 Won");
         stopGame = true;
+        ShowGameSparksIds();
     }
 
     void Player2Won()
     {
         gm.GameWon("Player 2 Won");
         stopGame = true;
+        ShowGameSparksIds();
+    }
+
+    void ShowGameSparksIds()
+    {
+        Debug.Log("Player 1 Gamesparks id: " + player1Controller.gamesparksUserId);
+        Debug.Log("Player 2 Gamesparks id: " + player2Controller.gamesparksUserId);
     }
 
     public void GetLeaderboard()

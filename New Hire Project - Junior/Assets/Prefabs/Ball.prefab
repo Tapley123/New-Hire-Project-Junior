@@ -142,7 +142,9 @@ MonoBehaviour:
   rb: {fileID: 2893199354091904122}
   speed: 7
   startPosition: {x: 0, y: 0, z: 0}
-  AmountToWin: 5
+  AmountToWin: 2
+  player1Controller: {fileID: 0}
+  player2Controller: {fileID: 0}
 --- !u!114 &5854251939753009138
 MonoBehaviour:
   m_ObjectHideFlags: 0

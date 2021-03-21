@@ -97,10 +97,8 @@ public class PlayerController : NetworkBehaviour
         new GameSparks.Api.Requests.AccountDetailsRequest().Send((response) => {
             if (!response.HasErrors)
             {
-                Debug.Log("Account Details Found...");
-
                 gamesparksUserId = response.UserId; // we can get the display name
-                Debug.Log("User Id: " + gamesparksUserId);
+                Debug.Log("Account Details Found... " + "\n" + "User Id: " + gamesparksUserId);
             }
             else
             {
