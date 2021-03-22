@@ -13,6 +13,23 @@ public class NewNetworkManager : NetworkManager
     GameObject ball;
     public GameObject leaderboardButton;
     public GameManager gm;
+    public GameObject leaderboardPanel;
+
+    
+    void OnStartStuff()
+    {
+        gm.leaderboardPanel.SetActive(false);
+        gm.leaderboardButton.SetActive(false);
+        gm.winPanel.SetActive(false);
+    }
+
+   
+    void OnStopStuff()
+    {
+        gm.leaderboardPanel.SetActive(false);
+        gm.leaderboardButton.SetActive(true);
+        gm.winPanel.SetActive(false);
+    }
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
@@ -258,7 +275,8 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartHost() 
     {
-        leaderboardButton.SetActive(false);
+        //gm.OnStartStuff();
+        OnStartStuff();
     }
 
     /// <summary>
@@ -267,7 +285,8 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartServer() 
     {
-        leaderboardButton.SetActive(false);
+        //gm.OnStartStuff();
+        OnStartStuff();
     }
 
     /// <summary>
@@ -275,7 +294,8 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStartClient() 
     {
-        leaderboardButton.SetActive(false);
+        //gm.OnStartStuff();
+        OnStartStuff();
     }
 
     /// <summary>
@@ -283,8 +303,8 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopHost() 
     {
-        leaderboardButton.SetActive(true);
-        gm.winPanel.SetActive(false);
+        //gm.OnStopStuff();
+        OnStopStuff();
     }
 
     /// <summary>
@@ -292,8 +312,8 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopServer() 
     {
-        leaderboardButton.SetActive(true);
-        gm.winPanel.SetActive(false);
+        //gm.OnStopStuff();
+        OnStopStuff();
     }
 
     /// <summary>
@@ -301,8 +321,9 @@ public class NewNetworkManager : NetworkManager
     /// </summary>
     public override void OnStopClient() 
     {
-        leaderboardButton.SetActive(true);
-        gm.winPanel.SetActive(false);
+        //gm.OnStopStuff();
+        //OnStopStuff();
+        gm.GM_OnStopClient();
     }
 
     #endregion

@@ -12,6 +12,8 @@ public class GameManager : NetworkBehaviour
     public GameObject winningPlayerName;
     public GameObject replayButton;
 
+    public GameObject leaderboardPanel, leaderboardButton;
+
     public PlayerController player1Controller, player2Controller;
 
     #endregion
@@ -33,12 +35,12 @@ public class GameManager : NetworkBehaviour
                 {
                     player1Controller = pc;
 
-                    Debug.Log("Player 1's Gamesparks user ID is: " + player1Controller.gamesparksUserId);
+                    //Debug.Log("Player 1's Gamesparks user ID is: " + player1Controller.gamesparksUserId);
                 }
                 else
                 {
                     player2Controller = pc;
-                    Debug.Log("Player 2's Gamesparks user ID is: " + player2Controller.gamesparksUserId); //<------------------------------------------------------------shows up as empty!!!!
+                    //Debug.Log("Player 2's Gamesparks user ID is: " + player2Controller.gamesparksUserId); //<------------------------------------------------------------shows up as empty!!!!
                 }
             }
         }
@@ -76,7 +78,6 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-
     public void ReplayButton()
     {
         if (!isServer)
@@ -95,8 +96,13 @@ public class GameManager : NetworkBehaviour
         winPanel.SetActive(false);
     }
 
-    public void Button_Leaderboard()
+    public void GM_OnStopClient()
     {
-
+        if(!isServer)
+        {
+            leaderboardPanel.SetActive(false);
+            leaderboardButton.SetActive(true);
+            winPanel.SetActive(false);
+        }
     }
 }
