@@ -135,12 +135,25 @@ public class PlayerController : NetworkBehaviour
     }
     #endregion
 
+
     public void PostScore(int score)
     {
         if(isLocalPlayer)
         {
-            Debug.Log("you scored: " + score + " Goals");
-            Debug.Log("LOOK HERE"); ////////////////////////////////////////////////<----------------------------------------------
+            //Debug.Log("you scored: " + score + " Goals");
+            //Debug.Log("LOOK HERE"); ////////////////////////////////////////////////<----------------------------------------------
+
+            new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", score).Send((response) => {
+                if (!response.HasErrors)
+                {
+                    //Debug.Log("Score Posted Successfully...");
+                    Debug.Log("you posted: " + score + " Goals to the Leaderboard");
+                }
+                else
+                {
+                    Debug.Log("Error Posting Score...");
+                }
+            });
         }
         
 

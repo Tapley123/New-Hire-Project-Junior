@@ -24,36 +24,41 @@ public class LeaderboardManager : NetworkBehaviour
 
     }
 
+    void GetLeaderboardData()
+    {
+        new GameSparks.Api.Requests.LeaderboardDataRequest()
+            .SetLeaderboardShortCode("SCORE_LEADERBOARD")
+            .SetEntryCount(100)
+            .Send((response) => {
+                if (!response.HasErrors)
+                {
+                    //Debug.Log("Found Leaderboard Data...");
+                    leaderboardPlayerText.text = System.String.Empty;
+                    leaderboardScoreText.text = System.String.Empty;
+
+                    foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
+                    {
+                        string score = entry.JSONData["SCORE"].ToString();
+                        string playerName = entry.UserName;
+
+                        //Debug.Log(" Name:" + playerName + "        Score:" + score + "\n");
+                        leaderboardPlayerText.text = leaderboardPlayerText.text + "\n" + playerName;
+                        leaderboardScoreText.text = leaderboardScoreText.text + "\n" + score;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Error Retrieving Leaderboard Data...");
+                }
+            });
+    }
+
     public void Button_Leaderboard()
     {
         leaderboardPanel.SetActive(true);
         leaderboardButton.SetActive(false);
 
-        new GameSparks.Api.Requests.LeaderboardDataRequest()
-            .SetLeaderboardShortCode("SCORE_LEADERBOARD")
-            .SetEntryCount(100)
-            .Send((response) => {
-            if (!response.HasErrors)
-            {
-                Debug.Log("Found Leaderboard Data...");
-                leaderboardPlayerText.text = System.String.Empty;
-                leaderboardScoreText.text = System.String.Empty;
-
-                foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
-                {
-                    string score = entry.JSONData["SCORE"].ToString();
-                    string playerName = entry.UserName;
-
-                    //Debug.Log(" Name:" + playerName + "        Score:" + score + "\n");
-                    leaderboardPlayerText.text = leaderboardPlayerText.text + "\n" + playerName;
-                    leaderboardScoreText.text = leaderboardScoreText.text + "\n" + score;
-                }
-            }
-            else
-            {
-                Debug.Log("Error Retrieving Leaderboard Data...");
-            }
-        });
+        GetLeaderboardData();
     }
 
     public void Button_Back()
@@ -67,7 +72,7 @@ public class LeaderboardManager : NetworkBehaviour
         new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", scoreInputTest.text).Send((response) => {
             if (!response.HasErrors)
             {
-                Debug.Log("Score Posted Successfully...");
+                //Debug.Log("Score Posted Successfully...");
                 //Debug.Log("scoreInputTest.text: " + scoreInputTest.text);
             }
             else
@@ -75,5 +80,26 @@ public class LeaderboardManager : NetworkBehaviour
                 Debug.Log("Error Posting Score...");
             }
         });
+
+        GetLeaderboardData();
+    }
+
+    public void Button_RemoveScoreTest()
+    {
+        int score = int.Parse(scoreInputTest.text);
+
+        new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", -score).Send((response) => {
+            if (!response.HasErrors)
+            {
+                Debug.Log("Score REMOVED Successfully...");
+                //Debug.Log("scoreInputTest.text: " + scoreInputTest.text);
+            }
+            else
+            {
+                Debug.Log("Error removeing Score...");
+            }
+        });
+
+        GetLeaderboardData();
     }
 }

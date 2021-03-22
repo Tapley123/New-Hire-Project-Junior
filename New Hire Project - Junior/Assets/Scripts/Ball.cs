@@ -137,23 +137,47 @@ public class Ball : NetworkBehaviour
     void Player1Won()
     {
         gm.GameWon("Player 1 Won");
+        //WinningStuff();
+        PostScores();
+
         stopGame = true;
         ShowGameSparksIds();
         //player1Controller.GameOver = true;
         //player2Controller.GameOver = true;
-        player1Controller.PostScore(score1);
-        player2Controller.PostScore(score2);
+
+        //player1Controller.PostScore(score1);
+        //player2Controller.PostScore(score2);
     }
 
     void Player2Won()
     {
         gm.GameWon("Player 2 Won");
+        //WinningStuff();
+        PostScores();
+
         stopGame = true;
         ShowGameSparksIds();
         //player1Controller.GameOver = true;
         //player2Controller.GameOver = true;
+
+        //player1Controller.PostScore(score1);
+        //player2Controller.PostScore(score2);
+    }
+
+    void PostScores()
+    {
         player1Controller.PostScore(score1);
         player2Controller.PostScore(score2);
+    }
+
+    void WinningStuff()
+    {
+        stopGame = true;
+        ShowGameSparksIds();
+        //player1Controller.GameOver = true;
+        //player2Controller.GameOver = true;
+        //player1Controller.PostScore(score1);
+        //player2Controller.PostScore(score2);
     }
 
     void ShowGameSparksIds()

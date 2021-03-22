@@ -106,7 +106,7 @@ public class LoginMenuManager : MonoBehaviour
     //checks the username and password a player has input and if they are correct then the player logs in
     public void B_Login()
     {
-        Debug.Log("Autorising Player...");
+        //Debug.Log("Autorising Player...");
         messageText.text = "Autorising Player...";
         errorText.text = "";
 
@@ -117,7 +117,7 @@ public class LoginMenuManager : MonoBehaviour
             {
                 if (!response.HasErrors)
                 {
-                    Debug.Log("Player Authenticated \n User Name: " + response.DisplayName);
+                    //Debug.Log("Player Authenticated \n User Name: " + response.DisplayName);
                     messageText.text = "Player Authenticated \n User Name: " + response.DisplayName;
                     errorText.text = "";
                     LoadGameScene();
