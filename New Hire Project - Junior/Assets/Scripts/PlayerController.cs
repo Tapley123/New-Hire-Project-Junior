@@ -142,6 +142,22 @@ public class PlayerController : NetworkBehaviour
         {
             //Debug.Log("you scored: " + score + " Goals");
             //Debug.Log("LOOK HERE"); ////////////////////////////////////////////////<----------------------------------------------
+            
+            /*
+            int score;
+
+            
+            if (player1)
+            {
+                score = int.Parse(gm.player1ScoreText.GetComponent<TMP_Text>().text);
+                Debug.Log("I am player 1 and my score is: " + score);
+            } 
+            else
+            {
+                score = int.Parse(gm.player2ScoreText.GetComponent<TMP_Text>().text);
+                Debug.Log("I am player 2 and my score is: " + score);
+            }
+            */
 
             new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", score).Send((response) => {
                 if (!response.HasErrors)

@@ -12,6 +12,7 @@ public class NewNetworkManager : NetworkManager
     public Transform rightRacketSpawn;
     GameObject ball;
     public GameObject leaderboardButton;
+    public GameManager gm;
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
@@ -283,6 +284,7 @@ public class NewNetworkManager : NetworkManager
     public override void OnStopHost() 
     {
         leaderboardButton.SetActive(true);
+        gm.winPanel.SetActive(false);
     }
 
     /// <summary>
@@ -291,6 +293,7 @@ public class NewNetworkManager : NetworkManager
     public override void OnStopServer() 
     {
         leaderboardButton.SetActive(true);
+        gm.winPanel.SetActive(false);
     }
 
     /// <summary>
@@ -299,6 +302,7 @@ public class NewNetworkManager : NetworkManager
     public override void OnStopClient() 
     {
         leaderboardButton.SetActive(true);
+        gm.winPanel.SetActive(false);
     }
 
     #endregion

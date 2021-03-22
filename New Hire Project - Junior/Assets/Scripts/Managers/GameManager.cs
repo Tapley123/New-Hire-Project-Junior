@@ -11,7 +11,9 @@ public class GameManager : NetworkBehaviour
     public GameObject winPanel;
     public GameObject winningPlayerName;
     public GameObject replayButton;
-    
+
+    public PlayerController player1Controller, player2Controller;
+
     #endregion
 
     private void Awake()
@@ -19,7 +21,29 @@ public class GameManager : NetworkBehaviour
         winPanel.SetActive(false);
     }
 
-    
+    private void Update()
+    {
+        if (player1Controller == null || player2Controller == null)
+        {
+            PlayerController[] playerControllers = FindObjectsOfType<PlayerController>();
+
+            foreach (PlayerController pc in playerControllers)
+            {
+                if (pc.player1)
+                {
+                    player1Controller = pc;
+
+                    Debug.Log("Player 1's Gamesparks user ID is: " + player1Controller.gamesparksUserId);
+                }
+                else
+                {
+                    player2Controller = pc;
+                    Debug.Log("Player 2's Gamesparks user ID is: " + player2Controller.gamesparksUserId); //<------------------------------------------------------------shows up as empty!!!!
+                }
+            }
+        }
+    }
+
 
     [ClientRpc]
     public void UpdatePlayer1Score(int score)
@@ -34,10 +58,13 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void GameWon(string winnerName)
+    public void GameWon(string winnerName, int player1Score, int player2Score)
     {
         winPanel.SetActive(true);
         winningPlayerName.GetComponent<TextMeshProUGUI>().text = winnerName;
+
+        player1Controller.PostScore(player1Score);
+        player2Controller.PostScore(player2Score);
 
         if (isServer)
         {

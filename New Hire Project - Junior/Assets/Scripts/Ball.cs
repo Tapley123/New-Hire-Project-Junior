@@ -136,9 +136,9 @@ public class Ball : NetworkBehaviour
 
     void Player1Won()
     {
-        gm.GameWon("Player 1 Won");
+        gm.GameWon("Player 1 Won", score1, score2);
         //WinningStuff();
-        PostScores();
+        //PostScores();
 
         stopGame = true;
         ShowGameSparksIds();
@@ -151,9 +151,9 @@ public class Ball : NetworkBehaviour
 
     void Player2Won()
     {
-        gm.GameWon("Player 2 Won");
+        gm.GameWon("Player 2 Won", score1, score2);
         //WinningStuff();
-        PostScores();
+        //PostScores();
 
         stopGame = true;
         ShowGameSparksIds();
@@ -166,8 +166,8 @@ public class Ball : NetworkBehaviour
 
     void PostScores()
     {
-        player1Controller.PostScore(score1);
-        player2Controller.PostScore(score2);
+        //player1Controller.PostScore(score1);
+        //player2Controller.PostScore(score2);
     }
 
     void WinningStuff()
