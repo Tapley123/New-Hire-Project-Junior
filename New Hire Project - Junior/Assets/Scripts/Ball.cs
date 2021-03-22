@@ -51,38 +51,6 @@ public class Ball : NetworkBehaviour
                     player2Controller = pc;
                     Debug.Log("Player 2's Gamesparks user ID is: " + player2Controller.gamesparksUserId); //<------------------------------------------------------------shows up as empty!!!!
                 }
-
-
-                new GameSparks.Api.Requests.LeaderboardDataRequest()
-                .SetLeaderboardShortCode("SCORE_LEADERBOARD")
-                .SetEntryCount(100)
-                .Send((response) => {
-                    if (!response.HasErrors)
-                    {
-                        //Debug.Log("Found Leaderboard Data...");
-
-                        foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
-                        {
-                            if (entry.UserId == player1Controller.gamesparksUserId)
-                            {
-                                string score = entry.JSONData["SCORE"].ToString();
-                                string name = entry.UserName;
-                                Debug.Log("Player1's name is: " + name + " their score is: " + score);
-                            }
-                            
-                            if (entry.UserId == player2Controller.gamesparksUserId)
-                            {
-                                string score = entry.JSONData["SCORE"].ToString();
-                                string name = entry.UserName;
-                                Debug.Log("Player2's name is: " + name + " their score is: " + score);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //Debug.Log("Error Retrieving Leaderboard Data...");
-                    }
-                });
             }
         }
     }
@@ -171,6 +139,10 @@ public class Ball : NetworkBehaviour
         gm.GameWon("Player 1 Won");
         stopGame = true;
         ShowGameSparksIds();
+        //player1Controller.GameOver = true;
+        //player2Controller.GameOver = true;
+        player1Controller.PostScore(score1);
+        player2Controller.PostScore(score2);
     }
 
     void Player2Won()
@@ -178,6 +150,10 @@ public class Ball : NetworkBehaviour
         gm.GameWon("Player 2 Won");
         stopGame = true;
         ShowGameSparksIds();
+        //player1Controller.GameOver = true;
+        //player2Controller.GameOver = true;
+        player1Controller.PostScore(score1);
+        player2Controller.PostScore(score2);
     }
 
     void ShowGameSparksIds()
@@ -186,64 +162,10 @@ public class Ball : NetworkBehaviour
         Debug.Log("Player 2 Gamesparks id: " + player2Controller.gamesparksUserId);
     }
 
-    private void GetPlayersLeaderboardScore()
-    {
-        new GameSparks.Api.Requests.LeaderboardDataRequest()
-            .SetLeaderboardShortCode("SCORE_LEADERBOARD")
-            .SetEntryCount(100)
-            .Send((response) => {
-                if (!response.HasErrors)
-                {
-                    foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
-                    {
-                        if(entry.UserId == player1Controller.gamesparksUserId)
-                        {
-                            Debug.Log("Player1's score = " + entry.JSONData["SCORE"].ToString());
-                        }
-
-                        if (entry.UserId == player2Controller.gamesparksUserId)
-                        {
-                            Debug.Log("Player2's score = " + entry.JSONData["SCORE"].ToString());
-                        }
-
-                        //string score = entry.JSONData["SCORE"].ToString();
-                        //string playerId = entry.UserId;
-                    }
-                }
-                else
-                {
-                    //Debug.Log("Error Retrieving Leaderboard Data...");
-                }
-            });
-    }
-
     /*
-    public void GetLeaderboard()
+    public void PostScores()
     {
-        new GameSparks.Api.Requests.LeaderboardDataRequest()
-            .SetLeaderboardShortCode("SCORE_LEADERBOARD")
-            .SetEntryCount(100)
-            .Send((response) => {
-                if (!response.HasErrors)
-                {
-                    //Debug.Log("Found Leaderboard Data...");
-
-                    foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
-                    {
-                        string score = entry.JSONData["SCORE"].ToString();
-                        string playerId = entry.UserId;
-                    }
-                }
-                else
-                {
-                    //Debug.Log("Error Retrieving Leaderboard Data...");
-                }
-            });
-    }
-
-    public void PostScoreToLeaderboard(int score)
-    {
-        new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", score).Send((response) => {
+        new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", scoreInputTest.text).Send((response) => {
             if (!response.HasErrors)
             {
                 Debug.Log("Score Posted Successfully...");
@@ -256,5 +178,4 @@ public class Ball : NetworkBehaviour
         });
     }
     */
-    
 }

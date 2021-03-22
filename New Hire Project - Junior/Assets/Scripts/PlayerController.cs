@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using GameSparks;
+using TMPro;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -14,11 +15,16 @@ public class PlayerController : NetworkBehaviour
     private float movement; // = to the Vertical axis from the input manager
 
     public bool player1 = false;
+    public bool GameOver = false;
+
+    private GameManager gm;
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = this.transform.position;
+        gm = FindObjectOfType<GameManager>();
         
 
         if (this.transform.position.x < 0)
@@ -59,6 +65,12 @@ public class PlayerController : NetworkBehaviour
     private void Update()
     {
         movement = Input.GetAxisRaw("Vertical");
+
+        if(GameOver && isLocalPlayer)
+        {
+            //PostScore();
+            GameOver = false;
+        }
     }
 
     #region Movement
@@ -123,34 +135,27 @@ public class PlayerController : NetworkBehaviour
     }
     #endregion
 
-
-
-    /*
-    public void GetMyLeaderboardScore()
+    public void PostScore(int score)
     {
-        new GameSparks.Api.Requests.LeaderboardDataRequest()
-        .SetLeaderboardShortCode("SCORE_LEADERBOARD")
-        .SetEntryCount(100)
-        .Send((response) => {
+        if(isLocalPlayer)
+        {
+            Debug.Log("you scored: " + score + " Goals");
+            Debug.Log("LOOK HERE"); ////////////////////////////////////////////////<----------------------------------------------
+        }
+        
+
+        /*
+        new GameSparks.Api.Requests.LogEventRequest().SetEventKey("SUBMIT_SCORE").SetEventAttribute("SCORE", scoreInputTest.text).Send((response) => {
             if (!response.HasErrors)
             {
-                //Debug.Log("Found Leaderboard Data...");
-
-                foreach (GameSparks.Api.Responses.LeaderboardDataResponse._LeaderboardData entry in response.Data)
-                {
-                    if (entry.UserId == gamesparksUserId)
-                    {
-                        string score = entry.JSONData["SCORE"].ToString();
-                        string name = entry.UserName;
-                        Debug.Log("My name is: " + name + " my score is: " + score);
-                    }
-                }
+                Debug.Log("Score Posted Successfully...");
+                //Debug.Log("scoreInputTest.text: " + scoreInputTest.text);
             }
             else
             {
-                Debug.Log("Error Retrieving Leaderboard Data...");
+                Debug.Log("Error Posting Score...");
             }
         });
+        */
     }
-    */
 }

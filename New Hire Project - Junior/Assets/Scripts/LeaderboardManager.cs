@@ -43,8 +43,8 @@ public class LeaderboardManager : NetworkBehaviour
                 {
                     string score = entry.JSONData["SCORE"].ToString();
                     string playerName = entry.UserName;
-                    Debug.Log(" Name:" + playerName + "        Score:" + score + "\n");
 
+                    //Debug.Log(" Name:" + playerName + "        Score:" + score + "\n");
                     leaderboardPlayerText.text = leaderboardPlayerText.text + "\n" + playerName;
                     leaderboardScoreText.text = leaderboardScoreText.text + "\n" + score;
                 }
